@@ -13,8 +13,10 @@ public class Producer {
 
         var producer = new KafkaProducer<String, String >(properties());
 
+        //mandar mensagem
     var record = new ProducerRecord<>("compras.do.cliente", "cliente-1", "compras: 90reais");
 
+    //verificar mensagem
         Callback callback = (data, error) ->{
             if(error != null){
                 error.printStackTrace();
