@@ -12,11 +12,10 @@ public class Producer {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
 
         var producer = new KafkaProducer<String, String >(properties());
-
         //mandar mensagem
-    var record = new ProducerRecord<>("compras.do.cliente", "cliente-1", "compras: 90reais");
+    var record = new ProducerRecord<>("compras.do.cliente", "cliente-1", "compras:90reais");
 
-    //verificar mensagem
+        //verificar mensagem
         Callback callback = (data, error) ->{
             if(error != null){
                 error.printStackTrace();
@@ -33,7 +32,7 @@ public class Producer {
     private static Properties properties() {
         var properties = new Properties();
 
-        properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "197.0.0.1:9092");
+        properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         //SERIALIZA QUANDO POSTA E DESERIALIZA QUANDO CONSOME
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());

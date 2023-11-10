@@ -1,4 +1,5 @@
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
@@ -16,21 +17,24 @@ public class Consumer {
 
         //CONSUMIR TODAS MENSAGENS
         while(true){
-            var records = consumer.poll(Duration.ofMillis(100));
+            //var records = consumer.poll(Duration.ofMillis(100));
 
-            for(var record : records) {
+            ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+
+            //for(var record : records) {
+                records.iterator().forEachRemaining(record -> {
                 System.out.println("Compra nova: ");
                 System.out.println(record.key());
                 System.out.println(record.value());
                 System.out.println(record.offset());
                 System.out.println(record.partition());
-            }
+            });
         }
     }
     private static Properties properties() {
         var properties = new Properties();
 
-        properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "197.0.0.1:9092");
+        properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         //SERIALIZA QUANDO POSTA E DESERIALIZA QUANDO CONSOME
         properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
